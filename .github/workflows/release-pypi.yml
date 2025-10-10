@@ -9,10 +9,9 @@ on:
     - v*
     branches:
     - main
-    # Uncomment the below section to enable testing package builds on pull requests to 'main'.
-    # pull_request:
-    #   branches:
-    #   - main
+  pull_request:
+    branches:
+    - main
 
 jobs:
   # Job to build the Python distribution.
@@ -23,13 +22,13 @@ jobs:
         package_name: ${{ steps.build_artifacts.outputs.package_name }}
         package_version: ${{ steps.build_artifacts.outputs.package_version }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         persist-credentials: false
         fetch-tags: true
         fetch-depth: 0
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "3.x"
     - name: Install pypa/build
@@ -64,7 +63,7 @@ jobs:
       id-token: write  # Required for trusted publishing
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: python-package-distributions
         path: dist/
@@ -81,12 +80,12 @@ jobs:
       id-token: write  # Required for Sigstore
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: python-package-distributions
         path: dist/
     - name: Sign the dists with Sigstore
-      uses: sigstore/gh-action-sigstore-python@v3.0.0
+      uses: sigstore/gh-action-sigstore-python@v3.0.1
       with:
         inputs: |
           ./dist/*.tar.gz
@@ -120,7 +119,7 @@ jobs:
       id-token: write  # Required for trusted publishing
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: python-package-distributions
         path: dist/

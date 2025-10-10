@@ -1,90 +1,157 @@
-### Community guidelines
- * Be respectful to others
- * Be appreciative and welcoming
- * Don't be judgmental
- * Be patient and supportive to newcomers
- * Value each contribution, even if it's not perfect - we can work as a team to benefit even from a failed attempt as we can learn from it!
- * Look after one another - we are community of like-minded people who care about others, not only about ticking the boxes
- * A challenge is not a bad thing, as it leads to expanding the horizons, being to competitive leads to unhealthy situations - be reasonable here
+# Contributing to Drift
 
-### Code conventions
-Please follow the standard python rules if possible:
-  * existing conventions
-  * [PEP8](https://www.python.org/dev/peps/pep-0008/)
-  * [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
+Thank you for your interest in contributing to Drift! We welcome contributions from the community.
 
-There is always room for opportunistic refactoring, but be careful and ensure the cosmetic changes have no adverse impact on performance or readability.
+## Code of Conduct
 
-### Testing conventions
-The project comes which a suite of unit tests covering most of the aspects. Make sure you pass all the existing tests locally before submitting the PR. Furthermore, any new feature, flow or the amendment of the existing one should be reflected in newly added unit tests or the update of the existing tests depending on the context.
+This project adheres to a Code of Conduct that all contributors are expected to follow. Please read [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) before contributing.
 
-Please follow [pytest good practices](https://docs.pytest.org/en/stable/goodpractices.html). You can also draw some inspirations from [this article](https://realpython.com/pytest-python-testing/).
+## How to Contribute
 
-Make sure you test the syntax before submitting the PR. Run a local build if you can and verify if all the new extra resources are also checked in.
+### Reporting Issues
 
-### Branching conventions
-We are working with a single master branch and one release branch to make is simple.
+If you find a bug or have a suggestion for improvement:
 
-### Commit-message conventions
- * Prefix each commit with the Jira/GitHub Issue ticket number if possible i.e. [ABC-123] New package nnn added to allow running bbb
- * Provide a high level summary of the changes. Try to be concise.
- * Make the commit messages meaningful. Don't skip them. They may be helpful during the code review and act as a passive documentation going forwards.
+1. Check if the issue already exists in the GitHub issue tracker
+2. If not, create a new issue with a clear title and description
+3. Include steps to reproduce the problem (for bugs)
+4. Provide your environment details (Python version, OS, etc.)
 
-### Steps for creating good pull requests
-  * State your intent is very clearly
-  * If there is a need to provide a thorough explanation or refer to external sources, please do it - it will help in the review
-  * Use the Jira/GitHub Issue ticket as a prefix in the PR title to ensure we get nice cross-references
-  * If you are unsure about certain aspects, don't be scared of asking on the available forums ahead of creating the PR.
-  * If you are aware of some drawback of the changes introduced be transparent about it, the reviewers will weigh pros and cons and your contribution may still be accepted
-  * To stick to a reasonable number of commits in your PR, you  may want to squash some of them using [the git  history rewriting technique](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History)
-  * You can use the PR as a medium for the conversation between  yourself and the project maintainers. You can prefix the PR with a meaningful tag eg. [IDEA], [SUGGESTION], [REMARK] etc. In such case your PR may never be integrated if what you are proposing is not in line with the general direction the project is going to. However, it would be still a valuable resource to track the discussion that took place and it may save time for somebody who is heading in a similar direction.
+### Submitting Changes
 
-### Expected timelines(SLAs) for the code review and the integration
- * The PRs should be reviewed within 1 week at least
- * The integration happens immediately after the PR is approved and merged into the target branch 
+1. Fork the repository
+2. Create a new branch for your feature or bugfix (`git checkout -b feature/my-new-feature`)
+3. Make your changes following our coding standards
+4. Write or update tests as needed
+5. Ensure all tests pass
+6. Commit your changes with clear, descriptive commit messages
+7. Push to your fork and submit a pull request
 
-### How to submit feature requests
- * You may want to discuss the feature on the teams channel or other forums availabe for the project
- * Use Jra board or GitHub Issues associated to this project
- * Link the PR(when the contribution is planned) with the Jira ticket/GitHub issue if possible - it may give us more context and will make the case for the change stronger
- * Please be thorough with the description
- * Highlight a reasonable timescale you wish the feature to be integrated within - it is helpful when prioritizing 
+## Development Setup
 
-### How to submit bug reports
- * Check carefully the documentaion and by asking on the available forums if the behaviour you are experiencing is expected or if it is a bug
- * Use Issues board associated to the project
- * Link the PR(when the contribution is planned) with the bug report request if possible - it may give us more context
- * Please be thorough with the description
- * Highlight a reasonable timescale you wish the feature to be integrated within - it is helpful when prioritizing 
+### Getting Started
 
-### How to submit security issue reports
-* Engage with project maintainers. Do not publicly disclose anything before the patch is delivered.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/Drift.git
+   cd Drift
+   ```
 
-### How to write documentation
-  * README.md and GETTINGSTARTED.md are where we describe the overview, the usage and the development practices
-  * Use [markdown syntax](https://www.markdownguide.org/basic-syntax/) which is widely supported in the GitHub, BitBucket WebUI as well as in many IDEs
-  * Use plain English and check your spelling prior to committing the change
-  * Remember that good documentation is essential, so take time to do it properly
+2. **Install dependencies with `uv`:**
+   ```bash
+   uv sync
+   ```
 
-### Dependencies
-All the development dependencies are incorporated into [pyproject.toml](./pyproject.toml).
+3. **Run tests:**
+   ```bash
+   uv run pytest
+   ```
 
-### Build process schedule
-The deliverable(python wheel) is built as soon as the PR is created, modified or merged into release(main) branch.
+### Code Quality Standards
 
-### Sprint schedule
-There is no specific scrum setup here. All the changes are worked on in a best effort mode.
+This project uses several tools to maintain code quality:
 
-### Road map
-There is no roadmap yet. One will be created if there is a need for it.
+- **Black** for code formatting
+- **Ruff** for linting
+- **MyPy** for type checking
+- **Pytest** for testing
 
-### When the repositories will be closed to contributions
-At this stage the repositories never get frozen.
+#### Running Quality Checks
 
-### Time reporting
-There is no budget behind this project. Potential contributors need to negotiate it with their line or project managers.
+Before submitting a pull request, ensure your code passes all quality checks:
 
-### Helpful links, information, and documentation
-  * [Markdown syntax](https://www.markdownguide.org/basic-syntax/)
-  * [PEP8](https://www.python.org/dev/peps/pep-0008/)
-  * [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
+```bash
+# Format code
+uv run black src/
+
+# Check linting
+uv run ruff check src/
+
+# Type checking
+uv run mypy src/
+
+# Run tests
+uv run pytest
+```
+
+#### Code Style Guidelines
+
+- Follow PEP 8 style guidelines (enforced by Black and Ruff)
+- Write clear, descriptive variable and function names
+- Add type hints to all functions
+- Keep functions focused and concise
+- Write docstrings for modules, classes, and functions
+
+### Testing
+
+- Write tests for new features and bug fixes
+- Ensure existing tests continue to pass
+- Aim for good test coverage
+- Use descriptive test names that explain what is being tested
+
+### Documentation
+
+- Update the README.md if you change functionality
+- Add docstrings to new functions and classes
+- Update configuration examples if needed
+- Document any new dependencies or requirements
+
+## Project Structure
+
+```
+Drift/
+├── src/
+│   └── drift/
+│       ├── __init__.py
+│       ├── __main__.py
+│       ├── config/
+│       │   └── logging.ini
+│       ├── registrating/
+│       │   ├── data_asset_registrator.py
+│       │   └── dataset_registrator.py
+│       ├── retraining/
+│       │   ├── job_group.py
+│       │   ├── model_retrainer.py
+│       │   └── training_status_refresher.py
+│       └── tools/
+│           └── azml.py
+├── docs/
+│   ├── drift.png
+│   ├── example-databricks-workflow.yaml
+│   ├── example-model-retrainer.conf
+│   └── example-training-dataset-registrator.conf
+├── pyproject.toml
+└── README.md
+```
+
+## Pull Request Process
+
+1. Update the README.md with details of changes if applicable
+2. Update documentation and examples as needed
+3. Ensure all tests pass and code quality checks succeed
+4. Your pull request will be reviewed by maintainers
+5. Address any feedback or requested changes
+6. Once approved, your PR will be merged
+
+## Development Dependencies
+
+Development dependencies are managed in `pyproject.toml`. Install them with:
+
+```bash
+uv sync
+```
+
+## Questions?
+
+If you have questions about contributing, feel free to:
+- Open an issue for discussion
+- Check existing documentation in the `docs/` directory
+- Reach out to the maintainers
+
+## License
+
+By contributing to Drift, you agree that your contributions will be licensed under the Apache License 2.0.
+
+---
+
+Thank you for contributing to Drift! 🎉
