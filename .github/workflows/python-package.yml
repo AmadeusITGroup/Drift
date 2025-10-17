@@ -8,7 +8,7 @@ on:
   push:
     branches:
     - main
-    - init-repo
+    - repo-init
     tags:
     - "v*"
 
@@ -22,7 +22,6 @@ jobs:
         python-version:
           - "3.11"
           - "3.12"
-          - "3.13"
 
     name: ${{ matrix.os }} - ${{ matrix.python-version }}
     steps:
@@ -44,7 +43,7 @@ jobs:
       run: tox -e py
 
   dist:
-    if: (github.ref_name == 'main')
+    if: (github.ref_name == 'main' || github.ref_name == 'repo-init')
     runs-on: ubuntu-latest
     needs: [test]
     name: Build Python packages

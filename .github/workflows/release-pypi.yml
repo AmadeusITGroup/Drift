@@ -9,6 +9,7 @@ on:
     - v*
     branches:
     - main
+    - repo-init
   pull_request:
     branches:
     - main
@@ -109,7 +110,7 @@ jobs:
   # Job to publish the distribution to TestPyPI on pushes to the 'main' branch.
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/main' ||  github.ref == 'refs/heads/repo-init') && github.event_name == 'push'
     needs: [build]
     runs-on: ubuntu-latest
     environment:
