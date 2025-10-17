@@ -96,7 +96,7 @@ dependencies = [
     "mlflow-skinny>=3.3.2,<4",
     "mltable>=1.6.3,<2",
     "pydataio>=1.0.1",
-    "pyspark==3.5.2",
+    "pyspark==4.0.1",
 ]
 
 [project.scripts]
