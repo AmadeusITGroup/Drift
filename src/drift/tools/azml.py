@@ -8,6 +8,7 @@ from pydataio.job_config import JobConfig
 
 logger = logging.getLogger(__name__)
 
+
 class AzMLConfig:
     """
     Class to represent the Azure ML configuration
@@ -20,10 +21,12 @@ class AzMLConfig:
         self.workspace_name = azml_config["mlWorkspaceName"]
         self.vault_name = vault_name
 
+
 class MlFlowUtils:
     """
     Class to interact with Azure ML
     """
+
     sp_config: ServicePrincipalConfiguration
     ml_client: MLClient
     mlflow_tracking_uri: str
@@ -36,7 +39,7 @@ class MlFlowUtils:
         """
         from databricks.sdk.runtime import dbutils
 
-        tenant_id = dbutils.secrets.get(scope=az_ml_config.vault_name, key='TenantID')
+        tenant_id = dbutils.secrets.get(scope=az_ml_config.vault_name, key="TenantID")
         client_id = dbutils.secrets.get(scope=az_ml_config.vault_name, key="ApplicationID")
         client_secret = dbutils.secrets.get(scope=az_ml_config.vault_name, key="ApplicationPassword")
 
@@ -53,19 +56,14 @@ class MlFlowUtils:
             workspace_name=az_ml_config.workspace_name,
         )
 
-        self.sp_config = ServicePrincipalConfiguration(
-            tenant_id=tenant_id,
-            client_id=client_id,
-            client_secret=client_secret
-        )
+        self.sp_config = ServicePrincipalConfiguration(tenant_id=tenant_id, client_id=client_id, client_secret=client_secret)
 
         os.environ["AZURE_TENANT_ID"] = tenant_id
         os.environ["AZURE_CLIENT_ID"] = client_id
         os.environ["AZURE_CLIENT_SECRET"] = client_secret
 
-        self.mlflow_tracking_uri = self.ml_client.workspaces.get(
-            self.ml_client.workspace_name
-        ).mlflow_tracking_uri
+        self.mlflow_tracking_uri = self.ml_client.workspaces.get(self.ml_client.workspace_name).mlflow_tracking_uri
+
 
 def init_ml_flow_utils(jobConfig: JobConfig, vault_name: str) -> MlFlowUtils:
     """

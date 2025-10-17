@@ -8,6 +8,7 @@ from azure.identity import ClientSecretCredential
 from databricks.sdk import WorkspaceClient
 from pydataio.pipeline import Pipeline
 
+
 def parse_arguments():
     parser = ArgumentParser(description="Entrypoint for Spark job.")
     parser.add_argument("--config", type=str, required=True, help="Path to the config file")
@@ -30,15 +31,11 @@ def main():
     logger.info("Initializing credential...")
     credential = ClientSecretCredential(
         tenant_id=args.tenant,
-        client_id=base64.b64decode(
-            w.secrets.get_secret(args.vault_name, "ApplicationID").value
-        ).decode("utf-8"),
-        client_secret=base64.b64decode(
-            w.secrets.get_secret(args.vault_name, "ApplicationPassword").value
-        ).decode("utf-8"),
+        client_id=base64.b64decode(w.secrets.get_secret(args.vault_name, "ApplicationID").value).decode("utf-8"),
+        client_secret=base64.b64decode(w.secrets.get_secret(args.vault_name, "ApplicationPassword").value).decode("utf-8"),
     )
 
-    logger.info(f"Config path: {args.config}")
+    logger.info("Config path: %s", args.config)
     logger.debug("Instantiating Pipeline...")
     pipeline = Pipeline()
     logger.info("Running pipeline...")
@@ -49,10 +46,9 @@ def main():
 
 def load_logging_configuration():
     # Path to the logging configuration file
-    config_path = os.path.join(os.path.dirname(__file__), 'config', 'logging.ini')
+    config_path = os.path.join(os.path.dirname(__file__), "config", "logging.ini")
 
-    logging.info(f"Config path: {config_path}")
+    logging.info("Config path: %s", config_path)
 
     # Load the logging configuration
     fileConfig(config_path)
-

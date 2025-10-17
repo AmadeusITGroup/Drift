@@ -5,6 +5,7 @@ class JobGroup:
     """
     A group of jobs with the same name
     """
+
     group_name: str
     training_timestamp: int
     job: PipelineJob

@@ -16,10 +16,11 @@ from drift.retraining.training_status_refresher import TrainingStatusRefresher
 
 logger = logging.getLogger(__name__)
 
+
 class ModelRetrainer(Transformer):
     jobConfig: JobConfig
     job_name_pattern: str
-    training_status_refresher :TrainingStatusRefresher
+    training_status_refresher: TrainingStatusRefresher
 
     def __init__(self):
         return
@@ -48,7 +49,7 @@ class ModelRetrainer(Transformer):
         group_name_pattern = "[a-z,0-9]{2,}"
         if additionalArgs.get("model_name_prefix", None) is not None:
             model_name_prefix = additionalArgs["model_name_prefix"].replace(",", "|")
-            logger.info(f"Retrain models for {model_name_prefix} only.")
+            logger.info("Retrain models for %s  only.", model_name_prefix)
             group_name_pattern = f"({model_name_prefix})"
 
         self.job_name_pattern = r"^" + group_name_pattern + "_[0-9]{14}_.*$"
@@ -65,12 +66,12 @@ class ModelRetrainer(Transformer):
         """
 
         data_asset_version = additionalArgs["data_asset_version"]
-        logger.info(f"Retrain models with data asset version {data_asset_version}")
+        logger.info("Retrain models with data asset version %s", data_asset_version)
 
         created_jobs: list[PipelineJob] = []
 
         for group_job in jobs_to_retrain:
-            logger.info(f"Retrain model for group {group_job.group_name}")
+            logger.info("Retrain model for group %s", group_job.group_name)
 
             based_job = group_job.job
             self.update_data_assets(based_job, data_asset_version)
@@ -78,7 +79,7 @@ class ModelRetrainer(Transformer):
             based_job.display_name = self.create_new_display_name(group_job.group_name)
             created_job = ml_client.jobs.create_or_update(based_job)
 
-            logger.info(f"Created job {created_job.display_name}")
+            logger.info("Created job %s", created_job.display_name)
             logger.debug(created_job)
 
             created_jobs.append(created_job)
@@ -94,11 +95,9 @@ class ModelRetrainer(Transformer):
         failed_jobs = self.training_status_refresher.wait_training(jobs)
         if len(failed_jobs) > 0:
             for failed_job in failed_jobs:
-                logger.error(f"Job {failed_job.display_name} failed.")
+                logger.error("Job %s failed.", failed_job.display_name)
 
             raise Exception("Some jobs failed.")
-
-
 
     @staticmethod
     def create_new_display_name(group_name: str):
@@ -109,7 +108,7 @@ class ModelRetrainer(Transformer):
 
         Returns: the new display name
         """
-        random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+        random_string = "".join(random.choices(string.ascii_letters + string.digits, k=6))
 
         current_datetime = datetime.now()
         return f"{group_name}_{current_datetime.strftime('%Y%m%d%H%M%S')}_{random_string}"
@@ -123,7 +122,7 @@ class ModelRetrainer(Transformer):
         """
 
         for data_asset in self.jobConfig.parameters["dataAssets"]:
-            logger.info(f"Update data asset {data_asset['name']} for based job {job.display_name}")
+            logger.info("Update data asset %s for based job %s", data_asset["name"], job.display_name)
             job.inputs[data_asset["name"]].path = f"{data_asset['value']}:{data_asset_version}"
 
     def retrieve_jobs_to_retrain(self, ml_client: MLClient) -> list[JobGroup]:
@@ -136,23 +135,23 @@ class ModelRetrainer(Transformer):
         """
 
         job_to_schedule: list[PipelineJob] = list(ml_client.jobs.list())
-        logger.debug(f"Retrieved {len(job_to_schedule)} jobs.")
+        logger.debug("Retrieved %s jobs.", len(job_to_schedule))
 
         job_to_schedule = list(filter(self.is_in_scope, job_to_schedule))
-        logger.debug(f"Retrieved {len(job_to_schedule)} jobs in the scope:")
+        logger.debug("Retrieved %s jobs in the scope:", len(job_to_schedule))
 
-        jobs_to_retrain_dict: dict[str, JobGroup] = dict()
+        jobs_to_retrain_dict: dict[str, JobGroup] = {}
         for job in job_to_schedule:
             names = re.split(r"_", job.display_name)
             group_name = names[0]
             training_timestamp = names[1]
 
             if jobs_to_retrain_dict.get(group_name) is None:
-                logger.info(f"Add new job {job.display_name} trained at {training_timestamp} to group {group_name} ")
+                logger.info("Add new job %s trained at %s to group %s ", job.display_name, training_timestamp, group_name)
                 jobs_to_retrain_dict[group_name] = JobGroup(group_name, training_timestamp, job)
             else:
                 if jobs_to_retrain_dict[group_name].is_older_than(training_timestamp):
-                    logger.info(f"Update group {group_name} with newer job {job.display_name} trained at {training_timestamp}")
+                    logger.info("Update group %s with newer job %s trained at %s", group_name, job.display_name, training_timestamp)
                     jobs_to_retrain_dict[group_name] = JobGroup(group_name, training_timestamp, job)
 
         jobs_to_retrain = list(jobs_to_retrain_dict.values())

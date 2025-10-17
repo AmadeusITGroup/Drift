@@ -10,6 +10,7 @@ from drift.tools.azml import init_ml_flow_utils
 
 logger = logging.getLogger(__name__)
 
+
 class DatasetRegistrator(Transformer):
 
     def __init__(self):
@@ -32,7 +33,6 @@ class DatasetRegistrator(Transformer):
 
         self.publish_new_version(version)
 
-
     def publish_new_version(self, new_version: str):
         """
         Publish the new version of the data asset to databricks
@@ -42,8 +42,7 @@ class DatasetRegistrator(Transformer):
         """
         from databricks.sdk.runtime import dbutils
 
-        dbutils.jobs.taskValues.set(key= "data_asset_version", value= new_version)
-
+        dbutils.jobs.taskValues.set(key="data_asset_version", value=new_version)
 
     @staticmethod
     def load_parameters(jobConfig: JobConfig) -> dict[str, str]:
@@ -53,25 +52,23 @@ class DatasetRegistrator(Transformer):
             jobConfig: the job configuration
         """
         parameters = {
-            'subscription_id': jobConfig.parameters["azml"]["subscriptionId"],
-            'resource_group': jobConfig.parameters["azml"]["resourceGroup"],
-            'ml_workspace_name':  jobConfig.parameters["azml"]["mlWorkspaceName"],
-            'storage_account_name': jobConfig.parameters["storageAccountName"],
-            'container_name': jobConfig.parameters["containerName"],
-            'container_path': jobConfig.parameters["containerDataPath"]
+            "subscription_id": jobConfig.parameters["azml"]["subscriptionId"],
+            "resource_group": jobConfig.parameters["azml"]["resourceGroup"],
+            "ml_workspace_name": jobConfig.parameters["azml"]["mlWorkspaceName"],
+            "storage_account_name": jobConfig.parameters["storageAccountName"],
+            "container_name": jobConfig.parameters["containerName"],
+            "container_path": jobConfig.parameters["containerDataPath"],
         }
 
         return parameters
 
-
-
     @staticmethod
-    def compute_version()-> (str, str):
+    def compute_version() -> (str, str):
         """
         Compute the new version of the data assets
         """
         current_datetime = datetime.now()
         delta_timestamp = current_datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
-        version = current_datetime.strftime("%Y%m%d%H%M%S" )
+        version = current_datetime.strftime("%Y%m%d%H%M%S")
 
         return version, delta_timestamp
