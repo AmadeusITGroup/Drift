@@ -91,7 +91,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "azure-ai-ml>=1.29.0,<2",
-    "databricks-sdk>=0.38.0,<0.39",
+    "databricks-sdk>=0.38.0,<0.74",
     "deltalake>=0.21.0,<0.22",
     "mlflow-skinny>=3.3.2,<4",
     "mltable>=1.6.3,<2",
