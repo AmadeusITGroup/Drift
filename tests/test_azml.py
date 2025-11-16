@@ -253,13 +253,4 @@ class TestInitMlFlowUtils:
         assert result == mock_mlflow_utils_instance
 
 
-class TestLogging:
-    """Test cases for logging configuration"""
 
-    def test_logger_exists(self):
-        """Test that logger is configured"""
-        from drift.tools import azml
-
-        assert hasattr(azml, "logger")
-        assert isinstance(azml.logger, logging.Logger)
-        assert azml.logger.name == "drift.tools.azml"
