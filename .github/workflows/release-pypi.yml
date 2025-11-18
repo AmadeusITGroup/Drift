@@ -9,9 +9,11 @@ on:
     - v*
     branches:
     - main
-  pull_request:
-    branches:
-    - main
+    - repo-init
+    # Uncomment the below section to enable testing package builds on pull requests to 'main'.
+    # pull_request:
+    #   branches:
+    #   - main
 
 jobs:
   # Job to build the Python distribution.
