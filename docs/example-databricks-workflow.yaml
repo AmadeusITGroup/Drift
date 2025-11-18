@@ -1,0 +1,56 @@
+resources:
+  jobs:
+    retraining_models:
+      name: retraining-models
+      email_notifications:
+        no_alert_for_skipped_runs: true
+      schedule:
+        quartz_cron_expression: 0 0 8 ? * MON *
+        timezone_id: UTC
+        pause_status: PAUSED
+      tasks:
+        - task_key: training-dataset-registrator
+          python_wheel_task:
+            package_name: drift
+            entry_point: spark_job
+            parameters:
+              - --tenant
+              - <tenant-id>
+              - --vault_name
+              - <vault-name>
+              - --config
+              - <path-to-configuration-file>
+          job_cluster_key: retraining-models-cluster
+          libraries:
+            - whl: <path-to-drift-python-wheel>
+        - task_key: model-retrainer
+          depends_on:
+            - task_key: training-dataset-registrator
+          python_wheel_task:
+            package_name: drift
+            entry_point: spark_job
+            parameters:
+              - --tenant
+              - <tenant-id>
+              - --vault_name
+              - <vault-name>
+              - --data_asset_version
+              - "{{tasks.`training-dataset-registrator`\
+                .values.data_asset_version}}"
+              - --config
+              - <path-to-configuration-file>
+          job_cluster_key: retraining-models-cluster
+          libraries:
+            - whl: <path-to-drift-python-wheel>
+      job_clusters:
+        - job_cluster_key: retraining-models-cluster
+          new_cluster:
+            cluster_name: ""
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_D4s_v5
+            enable_elastic_disk: true
+            data_security_mode: DATA_SECURITY_MODE_DEDICATED
+            kind: CLASSIC_PREVIEW
+            is_single_node: true
+      queue:
+        enabled: false

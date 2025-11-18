@@ -18,9 +18,9 @@ norecursedirs = [
 filterwarnings = []
 
 [tool.ruff]
-line-length = 100
+line-length = 205
 target-version = "py39"
-extend-exclude = ["doc"]
+extend-exclude = ["docs"]
 
 [tool.ruff.lint]
 select = [
@@ -39,9 +39,9 @@ select = [
 ignore = []
 
 [tool.black]
-line-length = 88
+line-length = 205
 target-version = ["py39"]
-extend-exclude = "doc"
+extend-exclude = "docs"
 
 [tool.mypy]
 warn_return_any = "True"
@@ -57,35 +57,53 @@ warn_unused_ignores = "True"
 
 # --- Buildsystem based on setuptools +  pyproject.toml : ---
 
-[build-system]
-requires = ["setuptools>=71", "setuptools-scm>=8"]
-build-backend = "setuptools.build_meta"
-
-
 [tool.setuptools_scm]
-write_to = "package/_version.py"
+write_to = "_version.py"
 write_to_template = "__version__ = \"{version}\"\n"
 
+[tool.hatch.build.targets.sdist]
+include = ["src/drift"]
 
-# --- Alternative with hatchling with pyproject.toml only: ---
-#[project]
-#name = "Squarer"
-#dynamic = ["version"]
+[tool.hatch.build.targets.wheel]
+include = ["src/drift"]
 
-#[build-system]
-#requires = ["hatchling>=1.24.2", "hatch-vcs>=0.3.0"]
-#build-backend = "hatchling.build"
+[tool.hatch.build.targets.wheel.sources]
+"src/drift" = "drift"
 
-#[tool.hatch.version]
-#source = "vcs"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-#[tool.hatch.version.raw-options]
-#version_scheme = "python-simplified-semver"
-#local_scheme = "no-local-version"
-#parentdir_prefix_version = "v"
-#git_describe_command = ["git", "describe", "--dirty", "--tags", "--long", "--match", "v*"]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["drift"]
+exclude = ["docs"]
 
-#[tool.hatch.build.hooks.vcs]
-#version-file = "package/_version.py"
+[project]
+name = "drift"
+version = "1.0.6"
+description = "Data Refresh and Intelligent Fast Training for Azure ML"
+authors = [
+    { name = "Simone DE SANTIS", email = "simone.desantis@amadeus.com" },
+    { name = "Guillaume LECLERC", email = "guillaume.leclerc@amadeus.com" }
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "azure-ai-ml>=1.29.0,<2",
+    "databricks-sdk>=0.38.0,<0.39",
+    "deltalake>=0.21.0,<0.22",
+    "mlflow-skinny>=3.3.2,<4",
+    "mltable>=1.6.3,<2",
+    "pydataio>=1.0.1",
+    "pyspark==3.5.2",
+]
 
-# -------------------------------------------------------------
+[project.scripts]
+spark_job = "drift.__main__:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.3",
+]
+
