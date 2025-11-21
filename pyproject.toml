@@ -80,7 +80,7 @@ include = ["drift"]
 exclude = ["docs"]
 
 [project]
-name = "drift"
+name = "amadeus_drift"
 version = "1.0.6"
 description = "Data Refresh and Intelligent Fast Training for Azure ML"
 authors = [
