@@ -144,6 +144,39 @@ wheels = [
 ]
 
 [[package]]
+name = "amadeus-drift"
+version = "1.0.8"
+source = { editable = "." }
+dependencies = [
+    { name = "azure-ai-ml" },
+    { name = "databricks-sdk" },
+    { name = "deltalake" },
+    { name = "mlflow-skinny" },
+    { name = "mltable" },
+    { name = "pydataio" },
+    { name = "pyspark" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "azure-ai-ml", specifier = ">=1.29.0,<2" },
+    { name = "databricks-sdk", specifier = ">=0.38.0,<0.39" },
+    { name = "deltalake", specifier = ">=0.21.0,<0.22" },
+    { name = "mlflow-skinny", specifier = ">=3.3.2,<4" },
+    { name = "mltable", specifier = ">=1.6.3,<2" },
+    { name = "pydataio", specifier = ">=1.0.1" },
+    { name = "pyspark", specifier = "==3.5.2" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.3.3" }]
+
+[[package]]
 name = "annotated-types"
 version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -686,39 +719,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/76/51/bc0eeb088c4bdea4628afcfeb0f4bbe254baa8ddfeba05ba2f34468a9d25/deltalake-0.21.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:92ccd486243dbe17c45a6ca06b108351dfd07708d34e75405fcb13033c63d176", size = 36251662, upload-time = "2024-10-30T15:06:41.257Z" },
     { url = "https://files.pythonhosted.org/packages/6a/3e/ca359eadd1385f23294fe517bec7aad04d0867c23051f8d6a957b1dd3322/deltalake-0.21.0-cp38-abi3-win_amd64.whl", hash = "sha256:dc84334a0f8df1f4f5c6ca9aaffbeffb896f43de6744d0c77c306ca8ba27041b", size = 28705433, upload-time = "2024-10-30T15:17:47.683Z" },
 ]
-
-[[package]]
-name = "drift"
-version = "1.0.6"
-source = { editable = "." }
-dependencies = [
-    { name = "azure-ai-ml" },
-    { name = "databricks-sdk" },
-    { name = "deltalake" },
-    { name = "mlflow-skinny" },
-    { name = "mltable" },
-    { name = "pydataio" },
-    { name = "pyspark" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "azure-ai-ml", specifier = ">=1.29.0,<2" },
-    { name = "databricks-sdk", specifier = ">=0.38.0,<0.39" },
-    { name = "deltalake", specifier = ">=0.21.0,<0.22" },
-    { name = "mlflow-skinny", specifier = ">=3.3.2,<4" },
-    { name = "mltable", specifier = ">=1.6.3,<2" },
-    { name = "pydataio", specifier = ">=1.0.1" },
-    { name = "pyspark", specifier = "==3.5.2" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8.3.3" }]
 
 [[package]]
 name = "fastapi"
