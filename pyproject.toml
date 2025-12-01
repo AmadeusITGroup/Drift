@@ -81,7 +81,7 @@ exclude = ["docs"]
 
 [project]
 name = "amadeus_drift"
-version = "1.0.8"
+version = "1.0.9"
 description = "Data Refresh and Intelligent Fast Training for Azure ML"
 authors = [
     { name = "Simone DE SANTIS", email = "simone.desantis@amadeus.com" },
